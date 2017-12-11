@@ -50,6 +50,7 @@ public class TimeServerHandler implements Runnable {
 	    String currentTime = null;
 	    String body = null;
 	    while (true) {
+	    	in.ready();
 		body = in.readLine();
 		if (body == null)
 		    break;
