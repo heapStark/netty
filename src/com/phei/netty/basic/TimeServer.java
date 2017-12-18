@@ -54,9 +54,12 @@ public class TimeServer {
     }
 
     private class ChildChannelHandler extends ChannelInitializer<SocketChannel> {
+         EventLoopGroup bossGroup = new NioEventLoopGroup(4);
 	@Override
 	protected void initChannel(SocketChannel arg0) throws Exception {
-	    arg0.pipeline().addLast( new TimeServerHandler());
+
+	    arg0.pipeline().addLast(bossGroup, new TimeServerHandler());//多线程
+               // .addLast(bossGroup, new ReadComplateHandler());//单线程
 	}
 
     }

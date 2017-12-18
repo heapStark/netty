@@ -47,7 +47,11 @@ public class TimeClient {
 		    });
 
 	    // 发起异步连接操作
-	    ChannelFuture f = b.connect(host, port).sync();
+        ChannelFuture f=b.connect(host, port).sync();
+        /*for (int i =0;i<5;i++){
+             f = b.connect(host, port).sync();
+        }*/
+
 
 	    // 当代客户端链路关闭
 	    f.channel().closeFuture().sync();
@@ -70,7 +74,7 @@ public class TimeClient {
 		// 采用默认值
 	    }
 	}
-	for (int i =0;i<10;i++){
+	for (int i =0;i<6;i++){
 	    new Thread(new Runnable() {
             @Override
             public void run() {

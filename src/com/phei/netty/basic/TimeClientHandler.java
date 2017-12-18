@@ -20,6 +20,7 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 /**
@@ -47,6 +48,7 @@ public class TimeClientHandler extends ChannelHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
 	ctx.writeAndFlush(firstMessage);
+       // ctx.close();
     }
 
     @Override
@@ -57,7 +59,15 @@ public class TimeClientHandler extends ChannelHandlerAdapter {
 	buf.readBytes(req);
 	String body = new String(req, "UTF-8");
 	System.out.println("Now is : " + body);
+        TimeUnit.SECONDS.sleep(3);
+        byte[] reqq = "QUERY TIME ORDER".getBytes();
+       ByteBuf firstMessage2 = Unpooled.buffer(req.length);
+        firstMessage2.writeBytes(req);
+        //ctx.write(firstMessage2);
+
+	//ctx.connect("127.0.0.1",8080).channel().writeAndFlush(firstMessage);
     }
+
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
@@ -65,5 +75,9 @@ public class TimeClientHandler extends ChannelHandlerAdapter {
 	logger.warning("Unexpected exception from downstream : "
 		+ cause.getMessage());
 	ctx.close();
+    }
+    @Override
+    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+        ctx.flush();
     }
 }
