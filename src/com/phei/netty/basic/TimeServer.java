@@ -33,8 +33,8 @@ public class TimeServer {
 
     public void bind(int port) throws Exception {
 	// 配置服务端的NIO线程组
-	EventLoopGroup bossGroup = new NioEventLoopGroup();
-	EventLoopGroup workerGroup = new NioEventLoopGroup();
+	EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+	EventLoopGroup workerGroup = new NioEventLoopGroup(1);
 	try {
 	    ServerBootstrap b = new ServerBootstrap();
 	    b.group(bossGroup, workerGroup)
@@ -56,7 +56,7 @@ public class TimeServer {
     private class ChildChannelHandler extends ChannelInitializer<SocketChannel> {
 	@Override
 	protected void initChannel(SocketChannel arg0) throws Exception {
-	    arg0.pipeline().addLast(new TimeServerHandler());
+	    arg0.pipeline().addLast( new TimeServerHandler());
 	}
 
     }

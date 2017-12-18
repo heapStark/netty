@@ -70,6 +70,18 @@ public class TimeClient {
 		// 采用默认值
 	    }
 	}
-	new TimeClient().connect(port, "127.0.0.1");
+	for (int i =0;i<10;i++){
+	    new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    new TimeClient().connect(8080, "127.0.0.1");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
     }
 }
